@@ -87,6 +87,8 @@
  <details>
 <summary>1. 회원관리</summary>
 <div markdown="1">
+  
+  ![login](src/assets/img/ui/login.png)
 
 1) 사용자 등록
 
