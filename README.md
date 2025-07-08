@@ -288,12 +288,15 @@
 
 </div>
 </details>
-
-</div>
-</details>
 <br>
 
-## <a id="erd-link서](https://docs.google.com/spreadsheets/d/1rTjaT62c36xYGsWzVaBISN6cNFUnTbNTU2lRPsEm0gU/edit?usp=sharing)
+## 테이블 명세서
+</div>
+</details>
+- 테이블 명세서 링크
+
+(https://docs.google.com/spreadsheets/d/1rTjaT62c36xYGsWzVaBISN6cNFUnTbNTU2lRPsEm0gU/edit?usp=sharing)
+
 </div>
 </details>
 
