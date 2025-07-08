@@ -1,0 +1,12 @@
+CREATE USER `team_1`@`%` IDENTIFIED BY '0000';
+
+SELECT HOST, USER, PASSWORD FROM mysql.user;
+
+CREATE DATABASE optiflow;
+
+GRANT ALL PRIVILEGES ON optiflow.* TO `team_1`@`%`;
+
+SHOW GRANTS FOR `team_1`;
+
+FLUSH PRIVILEGES;
+
