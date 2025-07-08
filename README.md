@@ -290,7 +290,19 @@
 </details>
 <br>
 
-## 테이블 명세서
+
+## <a id="erd-link"></a>3. ERD
+<details>
+<summary> ERD 이미지 </summary>
+<div markdown="1">
+
+![erd](src/assets/images/erd.png)
+</div>
+</details>
+<br>
+
+
+## 4. 테이블 명세서
 <details>
 <summary>테이블 명세서 링크</summary>
 <div markdown="1">
