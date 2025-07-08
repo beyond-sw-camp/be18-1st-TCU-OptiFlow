@@ -292,7 +292,7 @@
 
 ## 테이블 명세서
 <details>
-<summary>테이블 명세서</summary>
+<summary>테이블 명세서 링크</summary>
 <div markdown="1">
 
 
