@@ -87,23 +87,22 @@
  <details>
 <summary>1. 회원관리</summary>
 <div markdown="1">
-  
-  ![login](src/assets/img/ui/login.png)
 
 1) 사용자 등록
+![login](src/assets/img/ui/register.png)
+     : 아이디, 비밀번호, 이름, 연락, 이메일, 주민번호 등 기입
 
-    : 아이디, 비밀번호, 이름, 연락, 이메일, 주민번호 등 기입
-
-2) 가입 승인 및 권한 설정
+3) 가입 승인 및 권한 설정
 
     : 관리자는 가입 요청 목록 확인 및 승인 또는 반려 가능
 
-3) 가입 결과 알림
+4) 가입 결과 알림
 
     : 성공 시 로그인 페이지, 실패시 오류 메세지 출력
 
 5) 기본 로그인 기능
 
+![login](src/assets/img/ui/login.png)
     : 등록된 사용자만 아이디/비밀번호로 로그인
 
 6) 접근권한 제어
