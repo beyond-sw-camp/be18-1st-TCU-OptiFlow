@@ -47,7 +47,7 @@ CREATE TABLE `itemStatus` (
 
 CREATE TABLE `itemList` (
 	`item_no`			INTEGER			NOT NULL AUTO_INCREMENT,
-	`item_group_no`	INTEGER			NOT NULL,
+	`item_group_no`	INTEGER			NULL,
 	`item_status_no`	INTEGER			NOT NULL,
 	`item_name`			VARCHAR(60)		NULL,
 	`specification`	VARCHAR(100)	NULL,
