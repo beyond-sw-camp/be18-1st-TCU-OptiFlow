@@ -291,9 +291,10 @@
 <br>
 
 ## 테이블 명세서
-</div>
-</details>
-- 테이블 명세서 링크
+<details>
+<summary>테이블 명세서</summary>
+<div markdown="1">
+
 
 (https://docs.google.com/spreadsheets/d/1rTjaT62c36xYGsWzVaBISN6cNFUnTbNTU2lRPsEm0gU/edit?usp=sharing)
 
