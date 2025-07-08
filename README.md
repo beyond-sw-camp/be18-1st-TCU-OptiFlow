@@ -293,22 +293,7 @@
 </details>
 <br>
 
-## <a id="erd-link"></a>3. ERD
-<details>
-<summary> ERD 이미지 </summary>
-<div markdown="1">
-
-![erd](src/assets/img/erd.png)
-</div>
-</details>
-<br>
-
-## <a id="table_specifications"></a>4. 테이블 명세서
-<details>
-<summary> 테이블 명세서 보기 </summary>
-<div markdown="1">
-
-![table_specifications](src/assets/image/)
+## <a id="erd-link서](https://docs.google.com/spreadsheets/d/1rTjaT62c36xYGsWzVaBISN6cNFUnTbNTU2lRPsEm0gU/edit?usp=sharing)
 </div>
 </details>
 
