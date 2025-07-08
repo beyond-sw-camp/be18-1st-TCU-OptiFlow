@@ -124,7 +124,9 @@
 1) 품목 등록
 
     : 품목명, 품목코드, 단위 등 신규 등록
-![table](src/assets/img/ui/table_basic.png)
+
+- 기본화면
+  ![table](src/assets/img/ui/table_basic.png)
    
 2) 품목 사용 중지
 
@@ -140,7 +142,7 @@
 - 품목검색
 ![search](src/assets/img/ui/search.png)
     
-- 유사단어 검색
+- 유사단어
 ![similar_word](src/assets/img/ui/similar_word.png)
 
 5) 품목 수정
@@ -161,6 +163,9 @@
 1) 구매전표 입력
 
       : 거래처, 구매일자, 납기일자 등 기본정보 입력
+   
+- 거래 날짜 설정
+  ![table_date](src/assets/img/ui/date.png)
 
 2) 품목 및 수량 입력
   
@@ -190,6 +195,9 @@
 
     : 판매 전표 저장 및 임시저장
 
+  - 판매 주문서
+  ![total](src/assets/img/ui/total.png)
+
 9) 판매 주문서 조회 및 검색
 
     : 과거 판매 이력 주문서 조회 및 검색
@@ -214,6 +222,9 @@
 2) 영업사원 품목 추천
 
     : 해당 영업사원의 판매 빈도수에 비례하여, 품목 리스트를 추천
+
+- Top 10 품목 추천
+  ![Top 10](src/assets/img/ui/recommand.png)
 
 3) 추천 품목 편집
 
@@ -259,6 +270,9 @@
 1) 즐겨찾기 등록
 
     : 사용자가 자주 사용하는 품목을 등록하는 기능.
+   
+- 즐겨찾기 등록
+  ![table_date](src/assets/img/ui/star.png)
 
 2) 즐겨찾기 조회
 
