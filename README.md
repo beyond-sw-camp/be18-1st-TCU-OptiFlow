@@ -74,11 +74,35 @@
 
 
 ## <a id="requirements"></a>2. 요구사항 명세서
-<details>
-<summary> 요구사항 명세서 보기 </summary>
-<div markdown="1">
 
-![requirements](src/assets/images)
+<details>
+<summary>요구사항 명세서 링크</summary>
+<div markdown="1">
+https://docs.google.com/spreadsheets/d/1k7wxdafWGjq7NR42We7jSud8SaC5Y8va/edit?gid=980491185
+</div>
+</details>
+
+- ### 시스템
+####   1. 회원관리
+
+
+#### 2. 품목관리
+
+
+#### 3. 납품 이력 관리
+
+
+#### 4. 입력 추천 관리
+
+
+#### 5. 통계 및 조회 시스템
+
+
+#### 6. 통계 및 조회
+
+
+#### 7. 메뉴 즐겨찾기 설정
+
 
 
 </div>
@@ -87,7 +111,7 @@
 
 ## <a id="erd-link"></a>3. ERD
 <details>
-<summary> ERD 보기 </summary>
+<summary> ERD 이미지 </summary>
 <div markdown="1">
 
 ![erd](src/assets/images/erd.png)
