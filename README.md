@@ -79,7 +79,7 @@
 <details>
 <summary>요구사항 명세서 링크</summary>
 <div markdown="1">
-[https://docs.google.com/spreadsheets/d/1k7wxdafWGjq7NR42We7jSud8SaC5Y8va/edit?gid=980491185](https://docs.google.com/spreadsheets/d/1rTjaT62c36xYGsWzVaBISN6cNFUnTbNTU2lRPsEm0gU/edit?gid=67669380#gid=67669380)
+[https://docs.google.com/spreadsheets/d/1rTjaT62c36xYGsWzVaBISN6cNFUnTbNTU2lRPsEm0gU/edit?gid=67669380#gid=67669380]
 </div>
 </details>
 
