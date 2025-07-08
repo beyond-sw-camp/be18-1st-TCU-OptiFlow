@@ -296,7 +296,7 @@
 <summary> ERD 이미지 </summary>
 <div markdown="1">
 
-![erd](src/assets/images/erd.png)
+![erd](src/assets/img/erd.png)
 </div>
 </details>
 <br>
