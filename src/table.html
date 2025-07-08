@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="kr">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<title>전표</title>
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet"
+	      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+	<link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+	
+	<style>
+		.main-layout {
+			display: flex;
+			gap: 1.5rem;
+		}
+		
+		.main-content {
+			flex-grow: 1;
+		}
+		
+		#side-panels-container {
+			display: none;
+			flex-basis: 450px;
+			min-width: 400px;
+			gap: 1rem;
+		}
+		
+		#side-panels-container.visible {
+			display: flex;
+		}
+		
+		#side-panels-container .card {
+			flex: 1;
+		}
+		
+		.item-group-card .card-body, #favorites-items-body .list-group {
+			max-height: 250px;
+			overflow-y: auto;
+		}
+		
+		#dataTable th, #dataTable td {
+			border: 1px solid #e3e6f0;
+			padding-top: 20px;
+			padding-bottom: 20px;
+			vertical-align: middle;
+		}
+		
+		#dataTable tfoot th {
+			background-color: #f8f9fa !important;
+		}
+		
+		.search-container {
+			position: relative;
+		}
+		
+		#search-suggestions {
+			position: absolute;
+			top: 100%;
+			left: 0;
+			right: 0;
+			z-index: 1050;
+			max-height: 300px;
+			overflow-y: auto;
+			border-top: none;
+			border-radius: 0 0 .375rem .375rem;
+		}
+		
+		#custom-context-menu {
+			display: none;
+			position: absolute;
+			z-index: 1100;
+			width: 180px;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: .375rem;
+			box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+			padding: .5rem;
+		}
+		
+		#custom-context-menu .list-group-item {
+			cursor: pointer;
+			padding: .5rem 1rem;
+			border: none;
+		}
+		
+		#custom-context-menu .list-group-item:hover {
+			background-color: #f8f9fa;
+		}
+		
+		.dragging {
+			opacity: 0.5;
+			background-color: #e3e6f0;
+		}
+	</style>
+</head>
+
+<body id="page-top">
+	<div id="custom-context-menu">
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item" id="add-to-favorites-btn"><i class="fas fa-star fa-fw me-2"></i>즐겨찾기에 추가</li>
+		</ul>
+	</div>
+	
+	<div id="wrapper">
+		<nav class="navbar align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark">
+			<div class="container-fluid d-flex flex-column p-0"><a
+					class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+				<div class="sidebar-brand-icon rotate-n-0"><img src="assets/img/optiflow_logo.png" alt="OptiFlow 로고"
+				                                                width="40"></div>
+				<div class="sidebar-brand-text mx-3"><span>OptiFlow ERP</span></div>
+			</a>
+				<hr class="sidebar-divider my-0">
+				<ul class="navbar-nav text-light" id="accordionSidebar">
+					<li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="#"><i
+							class="fas fa-user"></i><span>Profile</span></a></li>
+					<li class="nav-item"><a class="nav-link active" href="#"><i
+							class="fas fa-table"></i><span>Table</span></a></li>
+					<li class="nav-item"><a class="nav-link" href="#"><i
+							class="far fa-user-circle"></i><span>Login</span></a></li>
+					<li class="nav-item"><a class="nav-link" href="#"><i
+							class="fas fa-user-circle"></i><span>Register</span></a></li>
+				</ul>
+				<div class="text-center d-none d-md-inline">
+					<button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+				</div>
+			</div>
+		</nav>
+		<div class="d-flex flex-column" id="content-wrapper">
+			<div id="content">
+				<nav class="navbar navbar-expand bg-white shadow mb-4 topbar">
+					<div class="container-fluid">
+						<button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button">
+							<i class="fas fa-bars"></i></button>
+						<form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
+							<div class="search-container">
+								<div class="input-group">
+									<input class="bg-light form-control border-0 small" type="text"
+									       id="main-search-input" placeholder="검색어를 입력하세요" autocomplete="off">
+									<button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i>
+									</button>
+								</div>
+								<div id="search-suggestions" class="list-group" style="display: none;"></div>
+							</div>
+						</form>
+						<ul class="navbar-nav flex-nowrap ms-auto">
+							<li class="nav-item dropdown no-arrow">
+								<div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link"
+								                                           aria-expanded="false"
+								                                           data-bs-toggle="dropdown" href="#"><span
+										class="d-none d-lg-inline me-2 text-gray-600 small">육세윤 님</span><img
+										class="border rounded-circle img-profile" src="assets/img/avatars/avatar1.jpeg"></a>
+									<div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a
+											class="dropdown-item" href="#"><i
+											class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a><a
+											class="dropdown-item" href="#"><i
+											class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="#"><i
+												class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</nav>
+				<div class="main-layout px-4">
+					<div class="main-content">
+						<div class="container-fluid p-0">
+							<div class="card shadow">
+								<div class="card-header py-3">
+									<h6 class="text-primary m-0 fw-bold">판매(출고) 입력</h6>
+								</div>
+								<div class="card-body">
+									<div class="row mb-3">
+										<div class="col-md-3"><label class="form-label">일자</label><input
+												class="form-control" type="date"></div>
+										<div class="col-md-3"><label class="form-label">거래처</label><input
+												class="form-control" type="text"></div>
+										<div class="col-md-3"><label class="form-label">담당자</label><input
+												class="form-control" type="text"></div>
+										<div class="col-md-3 d-flex align-items-end">
+											<button class="btn btn-primary" id="search-button" type="button">조회</button>
+										</div>
+									</div>
+									<div class="table-responsive table mt-2" id="dataTableWrapper" role="grid"
+									     aria-describedby="dataTable_info">
+										<table class="table table-bordered my-0" id="dataTable">
+											<thead align="center">
+												<tr>
+													<th>번호</th>
+													<th>품목명</th>
+													<th>규격</th>
+													<th>품목그룹</th>
+													<th>수량</th>
+													<th>단가</th>
+													<th>공급가액</th>
+													<th>부가세</th>
+													<th>합계 금액</th>
+												</tr>
+											</thead>
+											<tbody align="center">
+												<tr>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+												</tr>
+												<tr>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+												</tr>
+												<tr>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+												</tr>
+												<tr>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+												</tr>
+												<tr>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+												</tr>
+											</tbody>
+											<tfoot align="center">
+												<tr>
+													<th></th>
+													<th><strong></strong></th>
+													<th><strong></strong></th>
+													<th><strong></strong></th>
+													<th><strong>0</strong></th>
+													<th><strong>0</strong></th>
+													<th><strong>0</strong></th>
+													<th><strong>0</strong></th>
+													<th><strong>0</strong></th>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+									<div class="row">
+										<div class="col-md-6 align-self-center"><p id="dataTable_info"
+										                                           class="dataTables_info" role="status"
+										                                           aria-live="polite">Showing 1 to 5 of
+											5</p></div>
+										<div class="col-md-6">
+											<nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+												<ul class="pagination">
+													<li class="page-item disabled"><a class="page-link"
+													                                  aria-label="Previous"
+													                                  href="#"><span aria-hidden="true">«</span></a>
+													</li>
+													<li class="page-item active"><a class="page-link" href="#">1</a>
+													</li>
+													<li class="page-item"><a class="page-link" aria-label="Next"
+													                         href="#"><span aria-hidden="true">»</span></a>
+													</li>
+												</ul>
+											</nav>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="side-panels" id="side-panels-container">
+						<div class="d-flex flex-column" style="flex: 1; gap: 1rem;">
+							<div class="card shadow item-group-card">
+								<div class="card-header py-3"><h6 class="text-primary fw-bold m-0">품목그룹</h6></div>
+								<div class="card-body">
+									<div class="form-check"><input class="form-check-input" type="checkbox"
+									                               id="fav-1"><label class="form-check-label"
+									                                                 for="fav-1">봉지과자</label></div>
+									<div class="form-check"><input class="form-check-input" type="checkbox"
+									                               id="fav-2"><label class="form-check-label"
+									                                                 for="fav-2">파이과자</label></div>
+									<div class="form-check"><input class="form-check-input" type="checkbox"
+									                               id="fav-3"><label class="form-check-label"
+									                                                 for="fav-3">쿠키</label></div>
+									<div class="form-check"><input class="form-check-input" type="checkbox"
+									                               id="fav-4"><label class="form-check-label"
+									                                                 for="fav-4">비스킷</label></div>
+									<div class="form-check"><input class="form-check-input" type="checkbox"
+									                               id="fav-5"><label class="form-check-label"
+									                                                 for="fav-5">초콜릿</label></div>
+									<div class="form-check"><input class="form-check-input" type="checkbox"
+									                               id="fav-6"><label class="form-check-label"
+									                                                 for="fav-6">바</label></div>
+									<div class="form-check"><input class="form-check-input" type="checkbox"
+									                               id="fav-7"><label class="form-check-label"
+									                                                 for="fav-7">젤리</label></div>
+									<div class="form-check"><input class="form-check-input" type="checkbox"
+									                               id="fav-8"><label class="form-check-label"
+									                                                 for="fav-8">사탕</label></div>
+									<div class="form-check"><input class="form-check-input" type="checkbox"
+									                               id="fav-9"><label class="form-check-label"
+									                                                 for="fav-9">양갱</label></div>
+									<div class="form-check"><input class="form-check-input" type="checkbox" id="fav-10"><label
+											class="form-check-label" for="fav-10">견과류</label></div>
+								</div>
+							</div>
+							<div class="card shadow">
+								<div class="card-header py-3"><h6 class="text-primary fw-bold m-0">즐겨찾기</h6></div>
+								<div class="card-body" id="favorites-items-body">
+									<ul class="list-group list-group-flush" id="favorites-list"></ul>
+									<div class="input-group mt-3">
+										<input type="text" class="form-control form-control-sm" id="new-favorite-input"
+										       placeholder="규격명 입력">
+										<button class="btn btn-outline-primary btn-sm" type="button"
+										        id="add-new-favorite-btn">+
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="d-flex flex-column" style="flex: 1; gap: 1rem;">
+							<div class="card shadow" style="flex: 1;">
+								<div class="card-header py-3"><h6 class="text-primary fw-bold m-0">추천</h6></div>
+								<div class="card-body" id="recommendation-card-body">
+									<p class="text-center small text-muted">선택한 품목그룹에 따라 상품이 표시됩니다.</p>
+								</div>
+							</div>
+							<div>
+								<button class="btn btn-primary w-100" id="confirm-favorites-button" type="button">확인
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer class="bg-white sticky-footer">
+				<div class="container my-auto">
+					<div class="text-center my-auto copyright"><span>Copyright © Brand 2025</span></div>
+				</div>
+			</footer>
+		</div>
+		<a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+	</div>
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+	<script src="assets/js/bs-init.js"></script>
+	<script src="assets/js/theme.js"></script>
+	
+	<script>
+		// ----- 기본 UI 요소 선택 -----
+		const searchButton = document.getElementById('search-button');
+		const sidePanelsContainer = document.getElementById('side-panels-container');
+		const confirmButton = document.getElementById('confirm-favorites-button');
+		const itemGroupContainer = document.querySelector('.item-group-card .card-body');
+		const allCheckboxes = itemGroupContainer.querySelectorAll('input[type="checkbox"]');
+		const recommendationCardBody = document.getElementById('recommendation-card-body');
+		const originalRecommendationHTML = recommendationCardBody.innerHTML;
+		const mainSearchInput = document.getElementById('main-search-input');
+		const suggestionsContainer = document.getElementById('search-suggestions');
+		const dataTableWrapper = document.getElementById('dataTableWrapper');
+		const favoritesList = document.getElementById('favorites-list');
+		const newFavoriteInput = document.getElementById('new-favorite-input');
+		const addNewFavoriteBtn = document.getElementById('add-new-favorite-btn');
+		const contextMenu = document.getElementById('custom-context-menu');
+		const addToFavoritesBtn = document.getElementById('add-to-favorites-btn');
+		
+		// ----- 데이터 -----
+		const allItemsData = [
+			{name: '새우깡', spec: '120g', group: '봉지과자', price: 1500, popularity: 100},
+			{name: '바나나킥', spec: '75g', group: '봉지과자', price: 1300, popularity: 88},
+			{name: '포스틱', spec: '80g', group: '봉지과자', price: 1400, popularity: 85},
+			{name: '감자깡', spec: '110g', group: '봉지과자', price: 1500, popularity: 76},
+			{name: '고구마깡', spec: '110g', group: '봉지과자', price: 1500, popularity: 75},
+			{name: '자갈치', spec: '90g', group: '봉지과자', price: 1300, popularity: 60},
+			{name: '꿀꽈배기', spec: '90g', group: '봉지과자', price: 1400, popularity: 92},
+			{name: '오징어칩', spec: '85g', group: '봉지과자', price: 1600, popularity: 50},
+			{name: '오예스', spec: '12개입', group: '파이과자', price: 4800, popularity: 98},
+			{name: '빅파이', spec: '18개입', group: '파이과자', price: 3800, popularity: 82},
+			{name: '카스타드', spec: '12개입', group: '파이과자', price: 4200, popularity: 89},
+			{name: '오뜨', spec: '12개입', group: '파이과자', price: 4500, popularity: 70},
+			{name: '후렌치파이', spec: '15개입', group: '파이과자', price: 4000, popularity: 91},
+			{name: '초코파이', spec: '12개입', group: '파이과자', price: 4500, popularity: 100},
+			{name: '몽쉘', spec: '12개입', group: '파이과자', price: 5200, popularity: 99},
+			{name: '칙촉', spec: '12개입', group: '쿠키', price: 4800, popularity: 93},
+			{name: '촉촉한 초코칩', spec: '12개입', group: '쿠키', price: 4600, popularity: 94},
+			{name: '버터링', spec: '100g', group: '쿠키', price: 2000, popularity: 80},
+			{name: '참크래커', spec: '120g', group: '비스킷', price: 2200, popularity: 78},
+			{name: '에이스', spec: '121g', group: '비스킷', price: 1800, popularity: 83}
+		];
+		let favoriteSpecs = ["새우깡 1 + 초코파이 2", "오예스 5"];
+		
+		// ----- 헬퍼 함수 -----
+		
+		function renderFavorites() {
+			favoritesList.innerHTML = '';
+			if (favoriteSpecs.length === 0) {
+				favoritesList.innerHTML = '<p class="text-center small text-muted my-2">등록된 즐겨찾기가 없습니다.</p>';
+				return;
+			}
+			favoriteSpecs.forEach((spec, index) => {
+				const li = document.createElement('li');
+				li.className = 'list-group-item d-flex justify-content-between align-items-center p-2';
+				li.draggable = true;
+				li.style.cursor = 'pointer';
+				li.dataset.spec = spec;
+				
+				const textSpan = document.createElement('span');
+				textSpan.textContent = spec;
+				
+				const deleteBtn = document.createElement('button');
+				deleteBtn.className = 'btn btn-outline-danger btn-sm py-0 px-1';
+				deleteBtn.innerHTML = '&times;';
+				deleteBtn.dataset.index = index;
+				deleteBtn.title = "삭제";
+				
+				li.appendChild(textSpan);
+				li.appendChild(deleteBtn);
+				favoritesList.appendChild(li);
+			});
+		}
+		
+		function addItemsToTable(itemsToAdd) {
+			const mainTableBody = document.querySelector('#dataTable tbody');
+			if (!mainTableBody || itemsToAdd.length === 0) return;
+			
+			if (itemsToAdd.length === 1) {
+				const item = itemsToAdd[0];
+				const supplyPrice = item.price * item.quantity;
+				const vat = Math.round(supplyPrice * 0.1);
+				const totalAmount = supplyPrice + vat;
+				const newRowHTML = `<tr><td></td><td>${item.name}</td><td>${item.spec}</td><td>${item.group}</td><td>${item.quantity}</td><td>${item.price.toLocaleString()}</td><td>${supplyPrice.toLocaleString()}</td><td>${vat.toLocaleString()}</td><td>${totalAmount.toLocaleString()}</td></tr>`;
+				mainTableBody.insertAdjacentHTML('afterbegin', newRowHTML);
+			} else {
+				const combinedSpecParts = [];
+				let totalQuantity = 0;
+				let totalSupplyPrice = 0;
+				itemsToAdd.forEach(item => {
+					combinedSpecParts.push(`${item.name}(${item.quantity})`); // 괄호로 수량 표시
+					totalQuantity += item.quantity;
+					totalSupplyPrice += (item.price * item.quantity);
+				});
+				const combinedSpec = combinedSpecParts.join(' + ');
+				const totalVat = Math.round(totalSupplyPrice * 0.1);
+				const grandTotalAmount = totalSupplyPrice + totalVat;
+				const firstItem = itemsToAdd[0];
+				const newRowHTML = `<tr><td></td><td>${firstItem.name} 등</td><td>${combinedSpec}</td><td>${firstItem.group}</td><td>${totalQuantity}</td><td>100</td><td>${totalSupplyPrice.toLocaleString()}</td><td>${totalVat.toLocaleString()}</td><td>${grandTotalAmount.toLocaleString()}</td></tr>`;
+				mainTableBody.insertAdjacentHTML('afterbegin', newRowHTML);
+			}
+			
+			const lastEmptyRow = mainTableBody.querySelector('tr:last-child');
+			if (lastEmptyRow && !lastEmptyRow.querySelector('td:nth-child(2)').textContent) {
+				lastEmptyRow.remove();
+			}
+			updateTableFooter();
+			updateRowNumbers();
+		}
+		
+		function addFavoriteToTable(specString) {
+			const itemsFromSpec = [];
+			const parts = specString.split('+').map(p => p.trim());
+			
+			parts.forEach(part => {
+				const lastSpaceIndex = part.lastIndexOf(' ');
+				if (lastSpaceIndex === -1) {
+					return;
+				}
+				
+				const name = part.substring(0, lastSpaceIndex).trim();
+				const quantity = parseInt(part.substring(lastSpaceIndex + 1), 10);
+				const itemData = allItemsData.find(item => item.name === name);
+				
+				if (itemData && !isNaN(quantity)) {
+					itemsFromSpec.push({...itemData, quantity});
+				}
+			});
+			
+			if (itemsFromSpec.length > 0) {
+				addItemsToTable(itemsFromSpec);
+			}
+		}
+		
+		function updateTableFooter() {
+			const tableBodyRows = document.querySelectorAll('#dataTable tbody tr');
+			const footerCells = document.querySelectorAll('#dataTable tfoot tr th');
+			let totalQuantity = 0, totalUnitPrice = 0, totalSupplyPrice = 0, totalVat = 0, grandTotalAmount = 0;
+			tableBodyRows.forEach(row => {
+				if (row.cells[1].textContent) {
+					const quantity = parseInt(row.cells[4].textContent.replace(/,/g, '') || 0);
+					const unitPrice = parseInt(row.cells[5].textContent.replace(/,/g, '') || 0);
+					const supplyPrice = parseInt(row.cells[6].textContent.replace(/,/g, '') || 0);
+					const vat = parseInt(row.cells[7].textContent.replace(/,/g, '') || 0);
+					totalQuantity += quantity;
+					totalUnitPrice += unitPrice;
+					totalSupplyPrice += supplyPrice;
+					totalVat += vat;
+					grandTotalAmount += supplyPrice + vat;
+				}
+			});
+			footerCells[4].querySelector('strong').textContent = totalQuantity.toLocaleString();
+			footerCells[5].querySelector('strong').textContent = totalUnitPrice.toLocaleString();
+			footerCells[6].querySelector('strong').textContent = totalSupplyPrice.toLocaleString();
+			footerCells[7].querySelector('strong').textContent = totalVat.toLocaleString();
+			footerCells[8].querySelector('strong').textContent = grandTotalAmount.toLocaleString();
+		}
+		
+		function updateRowNumbers() {
+			const tableBodyRows = document.querySelectorAll('#dataTable tbody tr');
+			let rowNumber = 1;
+			tableBodyRows.forEach(row => {
+				if (row.cells[1] && row.cells[1].textContent.trim() !== '') {
+					row.cells[0].textContent = rowNumber;
+					rowNumber++;
+				} else {
+					row.cells[0].textContent = '';
+				}
+			});
+		}
+		
+		// ----- 이벤트 리스너 설정 -----
+		
+		document.addEventListener('DOMContentLoaded', renderFavorites);
+		
+		searchButton.addEventListener('click', () => sidePanelsContainer.classList.add('visible'));
+		
+		confirmButton.addEventListener('click', () => {
+			const recommendationRows = document.querySelectorAll('#recommendation-card-body tbody tr');
+			const itemsToAdd = [];
+			recommendationRows.forEach(row => {
+				const itemName = row.querySelector('td').textContent;
+				const quantity = parseInt(row.querySelector('.quantity').textContent, 10);
+				if (quantity > 0) {
+					const itemData = allItemsData.find(item => item.name === itemName);
+					if (itemData) itemsToAdd.push({...itemData, quantity});
+				}
+			});
+			if (itemsToAdd.length > 0) addItemsToTable(itemsToAdd);
+			sidePanelsContainer.classList.remove('visible');
+		});
+		
+		favoritesList.addEventListener('click', (event) => {
+			const target = event.target;
+			if (target.tagName === 'BUTTON') {
+				event.stopPropagation();
+				const indexToRemove = parseInt(target.dataset.index, 10);
+				favoriteSpecs.splice(indexToRemove, 1);
+				renderFavorites();
+			} else if (target.closest('li')) {
+				const specString = target.closest('li').dataset.spec;
+				addFavoriteToTable(specString);
+				sidePanelsContainer.classList.remove('visible');
+			}
+		});
+		
+		addNewFavoriteBtn.addEventListener('click', () => {
+			const newSpec = newFavoriteInput.value.trim();
+			if (newSpec && !favoriteSpecs.includes(newSpec)) {
+				favoriteSpecs.push(newSpec);
+				renderFavorites();
+				newFavoriteInput.value = '';
+			}
+		});
+		
+		favoritesList.addEventListener('dragstart', (event) => {
+			if (event.target.tagName === 'LI') {
+				event.target.classList.add('dragging');
+			}
+		});
+		
+		favoritesList.addEventListener('dragend', (event) => {
+			if (event.target.tagName === 'LI') {
+				event.target.classList.remove('dragging');
+				const newOrderLis = favoritesList.querySelectorAll('li');
+				const newFavoriteSpecs = Array.from(newOrderLis).map(li => li.dataset.spec);
+				favoriteSpecs = newFavoriteSpecs;
+				renderFavorites();
+			}
+		});
+		
+		favoritesList.addEventListener('dragover', (event) => {
+			event.preventDefault();
+			const draggingItem = document.querySelector('.dragging');
+			if (!draggingItem) return;
+			const siblings = [...favoritesList.querySelectorAll('li:not(.dragging)')];
+			const nextSibling = siblings.reduce((closest, child) => {
+				const box = child.getBoundingClientRect();
+				const offset = event.clientY - box.top - box.height / 2;
+				if (offset < 0 && offset > closest.offset) {
+					return {offset: offset, element: child};
+				} else {
+					return closest;
+				}
+			}, {offset: Number.NEGATIVE_INFINITY}).element;
+			if (nextSibling == null) {
+				favoritesList.appendChild(draggingItem);
+			} else {
+				favoritesList.insertBefore(draggingItem, nextSibling);
+			}
+		});
+		
+		dataTableWrapper.addEventListener('contextmenu', (event) => {
+			const targetCell = event.target.closest('td');
+			if (targetCell && targetCell.cellIndex === 2 && targetCell.textContent.trim()) {
+				event.preventDefault();
+				contextMenu.style.top = `${event.pageY}px`;
+				contextMenu.style.left = `${event.pageX}px`;
+				contextMenu.style.display = 'block';
+				contextMenu.dataset.spec = targetCell.textContent.trim();
+			}
+		});
+		
+		addToFavoritesBtn.addEventListener('click', () => {
+			const specToAdd = contextMenu.dataset.spec;
+			if (specToAdd && !favoriteSpecs.includes(specToAdd)) {
+				favoriteSpecs.push(specToAdd);
+				renderFavorites();
+			}
+			contextMenu.style.display = 'none';
+		});
+		
+		itemGroupContainer.addEventListener('change', () => {
+			const selectedCategories = [];
+			allCheckboxes.forEach(checkbox => {
+				if (checkbox.checked) {
+					const label = itemGroupContainer.querySelector(`label[for="${checkbox.id}"]`);
+					if (label) selectedCategories.push(label.textContent);
+				}
+			});
+			if (selectedCategories.length === 0) {
+				recommendationCardBody.innerHTML = originalRecommendationHTML;
+				return;
+			}
+			
+			// 1. 선택된 카테고리의 모든 품목을 필터링
+			const itemsToShow = allItemsData.filter(item => selectedCategories.includes(item.group));
+			
+			// 2. 인기도(popularity) 순으로 내림차순 정렬
+			itemsToShow.sort((a, b) => b.popularity - a.popularity);
+			
+			// 3. 정렬된 목록에서 상위 10개만 선택
+			const top10Items = itemsToShow.slice(0, 10);
+			
+			// 4. 상위 10개 항목으로만 추천 목록 테이블 생성
+			let tableHTML = `<div class="table-responsive"><table class="table table-sm table-hover mb-0"><thead><tr><th>제품명</th><th class="text-end">수량</th></tr></thead><tbody>`;
+			top10Items.forEach(item => {
+				tableHTML += `<tr><td class="align-middle">${item.name}</td><td><div class="d-flex justify-content-end align-items-center"><button class="btn btn-outline-secondary btn-sm py-0 px-2 btn-minus" type="button">-</button><span class="mx-2 quantity fw-bold">0</span><button class="btn btn-outline-secondary btn-sm py-0 px-2 btn-plus" type="button">+</button></div></td></tr>`;
+			});
+			tableHTML += `</tbody></table></div>`;
+			recommendationCardBody.innerHTML = tableHTML;
+		});
+		
+		recommendationCardBody.addEventListener('click', (event) => {
+			const target = event.target;
+			if (target.classList.contains('btn-plus')) {
+				const quantitySpan = target.previousElementSibling;
+				let currentQuantity = parseInt(quantitySpan.textContent, 10);
+				quantitySpan.textContent = currentQuantity + 1;
+			}
+			if (target.classList.contains('btn-minus')) {
+				const quantitySpan = target.nextElementSibling;
+				let currentQuantity = parseInt(quantitySpan.textContent, 10);
+				if (currentQuantity > 0) quantitySpan.textContent = currentQuantity - 1;
+			}
+		});
+		
+		mainSearchInput.addEventListener('input', () => {
+			const searchTerm = mainSearchInput.value.trim().toLowerCase();
+			if (searchTerm.length === 0) {
+				suggestionsContainer.style.display = 'none';
+				return;
+			}
+			const filteredItems = allItemsData.filter(item => item.name.toLowerCase().includes(searchTerm));
+			if (filteredItems.length > 0) {
+				suggestionsContainer.innerHTML = filteredItems.map(item => `<a href="#" class="list-group-item list-group-item-action">${item.name}</a>`).join('');
+				suggestionsContainer.style.display = 'block';
+			} else {
+				suggestionsContainer.style.display = 'none';
+			}
+		});
+		
+		suggestionsContainer.addEventListener('click', (event) => {
+			if (event.target.tagName === 'A') {
+				event.preventDefault();
+				mainSearchInput.value = event.target.textContent;
+				suggestionsContainer.style.display = 'none';
+			}
+		});
+		
+		document.addEventListener('click', (event) => {
+			if (!contextMenu.contains(event.target)) {
+				contextMenu.style.display = 'none';
+			}
+			const searchContainer = mainSearchInput.closest('.search-container');
+			if (!searchContainer.contains(event.target)) {
+				suggestionsContainer.style.display = 'none';
+			}
+		});
+	
+	</script>
+</body>
+
+</html>
