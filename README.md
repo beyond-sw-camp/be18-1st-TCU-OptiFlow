@@ -30,7 +30,7 @@
       </td>
       <td>
         <a href="https://github.com/viroovr" target="_blank">
-          <img src="https://avatars.githubusercontent.com/viroovr" width="100px" alt="서현원 프로필" style="border-radius:50%"/>
+          <img src="src/assets/img/penguin.jpg" width="100px" alt="서현원 프로필" style="border-radius:50%"/>
         </a>
       </td>
       <td>
