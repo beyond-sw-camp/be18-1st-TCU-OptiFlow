@@ -54,7 +54,9 @@
    
 4. [🔗 ERD](#erd-link)
    
-6. [📄 테이블 명세서](#table_specifications)
+6. [📄 테이블 명세서](#table-specifications)
+
+8. [📄 DB DDL](#db-ddl)
    
 8. [👨‍💻 프로젝트 후기](#retrospective)
 
@@ -301,7 +303,7 @@
 <br>
 
 
-## 4. 테이블 명세서
+## <a id="table-specifications"></a> 4. 테이블 명세서
 <details>
 <summary>테이블 명세서 링크</summary>
 <div markdown="1">
@@ -314,8 +316,36 @@
 
 <br>
 
+## <a id="db-ddl"></a> 5. DB DDL
+<details>
+<summary>DB DDL 예시</summary>
+<div markdown="1">
+  
+```sql
+CREATE TABLE `employees` (
+	`emp_no` INTEGER NOT NULL AUTO_INCREMENT,
+	`dept_no` INTEGER NOT NULL,
+	`emp_name` VARCHAR(30) NOT NULL,
+	`email` VARCHAR(60) NOT NULL UNIQUE,
+	`phone_number` VARCHAR(15) NOT NULL,
+	`address` VARCHAR(120) NOT NULL,
+	`ssn` CHAR(64) NOT NULL, -- SHA-256 해시 저장 기준
+	`hire_date` DATE NOT NULL,
+	`role` TINYINT NOT NULL,
+	CONSTRAINT `PK_EMPLOYEES` PRIMARY KEY (`emp_no`),
+	CONSTRAINT `FK_department_TO_employees_1` FOREIGN KEY (`dept_no`) 
+	REFERENCES `department` (`dept_no`)
+);
+```
+  
+[👉 DDL.sql 바로 보기](sql/02_optiflow_ddl.sql)
 
-## <a id="retrospective"></a>5. 프로젝트 후기
+</div>
+</details>
+
+<br>
+
+## <a id="retrospective"></a>6. 프로젝트 후기
 | 이름 | 후기                                                                                                                                                                                                                                                     |
 |:---:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 육세윤 | 프로젝트를 진행하면서 이렇게 손발이 맞는 팀원들은 처음입니다.  <br/>서로 적극적으로 참여하며 더 양질의 결과물이 나온 것 같아 감개무량합니다.<br/>팀장으로서 매일 야근을 시켰는데 잘 따라와준 팀원들에게 매우 감사합니다. <br/>특히, 데이터베이스와 백/ 프론트엔드의 개념을 확립할 수 있었고, PM으로서 개발자와의 커뮤니케이션 스킬을 배울 수 있었습니다. <br/>데이터베이스가 무엇인지도 몰랐지만, 팀원들의 도움으로 요구사항 명세서, DB 설계 및 테이블 명세서까지 협업하여 완성할 수 있었습니다. <br/>너무너무 고마운 다들 환영해조 화이팅!! |
