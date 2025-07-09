@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<title>Inventory - Optiflow ERP</title>
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+	<link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+	<style>
+		/* 버튼 클릭 시 활성 상태를 표시하기 위한 스타일 */
+		.category-btn.active {
+			background-color: #4e73df;
+			border-color: #4e73df;
+			color: #fff;
+		}
+	</style>
+</head>
+
+<body id="page-top">
+	<div id="wrapper">
+		<nav class="navbar align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark">
+			<div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+				<div class="sidebar-brand-icon rotate-n-0"><img src="assets/img/optiflow_logo.png" alt="OptiFlow 로고" width="40"></div>
+				<div class="sidebar-brand-text mx-3"><span>OptiFlow ERP</span></div>
+			</a>
+				<hr class="sidebar-divider my-0">
+				<ul class="navbar-nav text-light" id="accordionSidebar">
+					<li class="nav-item"><a class="nav-link" href="./index.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+					<li class="nav-item"><a class="nav-link active" href="./inventory.html"><i class="fas fa-boxes"></i><span>Inventory</span></a></li>
+					<li class="nav-item"><a class="nav-link" href="./profile.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
+				</ul>
+				<div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+			</div>
+		</nav>
+		<div class="d-flex flex-column" id="content-wrapper">
+			<div id="content">
+				<nav class="navbar navbar-expand bg-white shadow mb-4 topbar">
+				</nav>
+				<div class="container-fluid">
+					<div class="d-sm-flex justify-content-between align-items-center mb-4">
+						<h3 class="text-dark mb-0">품목 리스트</h3>
+					</div>
+					
+					<div class="mb-4" id="category-buttons">
+						<button class="btn btn-outline-primary category-btn active" data-category="All">전체</button>
+						<button class="btn btn-outline-primary category-btn" data-category="봉지과자">봉지과자</button>
+						<button class="btn btn-outline-primary category-btn" data-category="파이과자">파이과자</button>
+						<button class="btn btn-outline-primary category-btn" data-category="쿠키">쿠키</button>
+						<button class="btn btn-outline-primary category-btn" data-category="비스킷">비스킷</button>
+						<button class="btn btn-outline-primary category-btn" data-category="초콜릿">초콜릿</button>
+						<button class="btn btn-outline-primary category-btn" data-category="바">바</button>
+						<button class="btn btn-outline-primary category-btn" data-category="젤리">젤리</button>
+						<button class="btn btn-outline-primary category-btn" data-category="사탕">사탕</button>
+						<button class="btn btn-outline-primary category-btn" data-category="양갱">양갱</button>
+						<button class="btn btn-outline-primary category-btn" data-category="견과류">견과류</button>
+						<button class="btn btn-outline-primary category-btn" data-category="세트상품">세트상품</button>
+					</div>
+					
+					<div class="card shadow">
+						<div class="card-header py-3">
+							<p class="text-primary m-0 fw-bold">재고 현황</p>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+								<table class="table table-bordered my-0" id="inventory-table">
+									<thead>
+										<tr>
+											<th>품목명</th>
+											<th>규격</th>
+											<th>단위</th>
+											<th>품목구분</th>
+											<th>현재 수량</th>
+											<th>상태</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer class="bg-white sticky-footer">
+				<div class="container my-auto">
+					<div class="text-center my-auto copyright"><span>Copyright Optiflow ERP 2025</span></div>
+				</div>
+			</footer>
+		</div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+	</div>
+	
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+	<script src="assets/js/theme.js"></script>
+	<script>
+		const inventoryData = [
+			// 봉지과자 (10)
+			{ name: '새우깡', specification: '90g/봉지', unit: 'EA', type: '원재료', category: '봉지과자', stock: 188 },
+			{ name: '양파링', specification: '100g/봉지', unit: 'EA', type: '원재료', category: '봉지과자', stock: 205 },
+			{ name: '오징어칩', specification: '83g/봉지', unit: 'EA', type: '원재료', category: '봉지과자', stock: 92 },
+			{ name: '고구마칩', specification: '130g/봉지', unit: 'EA', type: '원재료', category: '봉지과자', stock: 153 },
+			{ name: '콘칩', specification: '148g/봉지', unit: 'EA', type: '원재료', category: '봉지과자', stock: 130 },
+			{ name: '포테이토칩', specification: '150g/봉지', unit: 'EA', type: '원재료', category: '봉지과자', stock: 215 },
+			{ name: '프링글스', specification: '110g/통', unit: 'EA', type: '원재료', category: '봉지과자', stock: 77 },
+			{ name: '카라멜콘', specification: '72g/봉지', unit: 'EA', type: '원재료', category: '봉지과자', stock: 142 },
+			{ name: '짱구', specification: '50g/봉지', unit: 'EA', type: '원재료', category: '봉지과자', stock: 99 },
+			{ name: '자갈치볶음', specification: '90g/봉지', unit: 'EA', type: '원재료', category: '봉지과자', stock: 121 },
+			// 파이과자 (10)
+			{ name: '초코파이', specification: '12개입/박스', unit: 'BOX', type: '원재료', category: '파이과자', stock: 250 },
+			{ name: '딸기파이', specification: '12개입/박스', unit: 'BOX', type: '원재료', category: '파이과자', stock: 180 },
+			{ name: '애플파이', specification: '6개입/박스', unit: 'BOX', type: '원재료', category: '파이과자', stock: 195 },
+			{ name: '파인애플파이', specification: '6개입/박스', unit: 'BOX', type: '원재료', category: '파이과자', stock: 160 },
+			{ name: '오리지널 파이', specification: '12개입/박스', unit: 'BOX', type: '원재료', category: '파이과자', stock: 140 },
+			{ name: '초코롤', specification: '8개입/박스', unit: 'BOX', type: '원재료', category: '파이과자', stock: 220 },
+			{ name: '카스타드', specification: '10개입/박스', unit: 'BOX', type: '원재료', category: '파이과자', stock: 175 },
+			{ name: '엄마손파이', specification: '128g/박스', unit: 'BOX', type: '원재료', category: '파이과자', stock: 95 },
+			{ name: '빅파이', specification: '18개입/박스', unit: 'BOX', type: '원재료', category: '파이과자', stock: 280 },
+			{ name: '후렌치파이', specification: '192g/박스', unit: 'BOX', type: '원재료', category: '파이과자', stock: 210 },
+			// 쿠키 (10)
+			{ name: '오레오', specification: '100g/박스', unit: 'BOX', type: '원재료', category: '쿠키', stock: 310 },
+			{ name: '칙촉', specification: '180g/박스', unit: 'BOX', type: '원재료', category: '쿠키', stock: 190 },
+			{ name: '초코칩 쿠키', specification: '10개입/박스', unit: 'BOX', type: '원재료', category: '쿠키', stock: 350 },
+			{ name: '버터링', specification: '100g/박스', unit: 'BOX', type: '원재료', category: '쿠키', stock: 290 },
+			{ name: '마가렛트', specification: '12개입/박스', unit: 'BOX', type: '원재료', category: '쿠키', stock: 155 },
+			{ name: '촉촉한 초코칩', specification: '240g/박스', unit: 'BOX', type: '원재료', category: '쿠키', stock: 185 },
+			{ name: '계란과자', specification: '70g/봉지', unit: 'EA', type: '원재료', category: '쿠키', stock: 95 },
+			{ name: '버터와플', specification: '135g/박스', unit: 'BOX', type: '원재료', category: '쿠키', stock: 200 },
+			{ name: '사브레', specification: '100g/박스', unit: 'BOX', type: '원재료', category: '쿠키', stock: 140 },
+			{ name: '하비스트', specification: '100g/박스', unit: 'BOX', type: '원재료', category: '쿠키', stock: 130 },
+			// 비스킷 (10)
+			{ name: '뽀또', specification: '78g/박스', unit: 'BOX', type: '원재료', category: '비스킷', stock: 180 },
+			{ name: '다이제', specification: '194g/개', unit: 'EA', type: '원재료', category: '비스킷', stock: 210 },
+			{ name: '에이스', specification: '121g/박스', unit: 'BOX', type: '원재료', category: '비스킷', stock: 450 },
+			{ name: '참깨스틱', specification: '55g/박스', unit: 'BOX', type: '원재료', category: '비스킷', stock: 190 },
+			{ name: '빠다코코낫', specification: '100g/박스', unit: 'BOX', type: '원재료', category: '비스킷', stock: 220 },
+			{ name: '아이비', specification: '120g/박스', unit: 'BOX', type: '원재료', category: '비스킷', stock: 180 },
+			{ name: '제크', specification: '70g/박스', unit: 'BOX', type: '원재료', category: '비스킷', stock: 160 },
+			{ name: '야채크래커', specification: '80g/봉지', unit: 'EA', type: '원재료', category: '비스킷', stock: 110 },
+			{ name: '고소미', specification: '70g/박스', unit: 'BOX', type: '원재료', category: '비스킷', stock: 170 },
+			{ name: '크라운산도', specification: '161g/박스', unit: 'BOX', type: '원재료', category: '비스킷', stock: 320 },
+			// 초콜릿 (10)
+			{ name: '가나 초콜릿', specification: '34g/개', unit: 'EA', type: '원재료', category: '초콜릿', stock: 500 },
+			{ name: '킷캣', specification: '45g/개', unit: 'EA', type: '원재료', category: '초콜릿', stock: 380 },
+			{ name: '초코송이', specification: '50g/박스', unit: 'BOX', type: '원재료', category: '초콜릿', stock: 450 },
+			{ name: '허쉬', specification: '40g/개', unit: 'EA', type: '원재료', category: '초콜릿', stock: 320 },
+			{ name: '크런키', specification: '34g/개', unit: 'EA', type: '원재료', category: '초콜릿', stock: 510 },
+			{ name: 'ABC 초콜릿', specification: '187g/봉지', unit: 'EA', type: '원재료', category: '초콜릿', stock: 600 },
+			{ name: 'M&Ms', specification: '13.5g/개', unit: 'EA', type: '원재료', category: '초콜릿', stock: 800 },
+			{ name: '페레로로쉐', specification: '3개입', unit: 'EA', type: '원재료', category: '초콜릿', stock: 250 },
+			{ name: '자유시간', specification: '36g/개', unit: 'EA', type: '원재료', category: '초콜릿', stock: 480 },
+			{ name: '아트라스', specification: '45g/개', unit: 'EA', type: '원재료', category: '초콜릿', stock: 350 },
+			// 바 (10)
+			{ name: '닥터유 에너지바', specification: '40g/개', unit: 'EA', type: '원재료', category: '바', stock: 230 },
+			{ name: '핫브레이크', specification: '50g/개', unit: 'EA', type: '원재료', category: '바', stock: 280 },
+			{ name: '곡물바', specification: '30g/개', unit: 'EA', type: '원재료', category: '바', stock: 250 },
+			{ name: '단백질바', specification: '50g/개', unit: 'EA', type: '원재료', category: '바', stock: 180 },
+			{ name: '스니커즈', specification: '51g/개', unit: 'EA', type: '원재료', category: '바', stock: 410 },
+			{ name: '크라운 곡물 와플바', specification: '32g/개', unit: 'EA', type: '원재료', category: '바', stock: 150 },
+			{ name: '켈로그 레드베리', specification: '27g/개', unit: 'EA', type: '원재료', category: '바', stock: 190 },
+			{ name: '네이처밸리', specification: '42g/개', unit: 'EA', type: '원재료', category: '바', stock: 220 },
+			{ name: '오리온 마켓오', specification: '36g/개', unit: 'EA', type: '원재료', category: '바', stock: 200 },
+			{ name: '해태 연양갱바', specification: '50g/개', unit: 'EA', type: '원재료', category: '바', stock: 170 },
+			// 젤리 (10)
+			{ name: '하리보 골드베렌', specification: '100g/봉지', unit: 'EA', type: '원재료', category: '젤리', stock: 600 },
+			{ name: '마이구미', specification: '66g/봉지', unit: 'EA', type: '원재료', category: '젤리', stock: 550 },
+			{ name: '왕꿈틀이', specification: '94g/봉지', unit: 'EA', type: '원재료', category: '젤리', stock: 480 },
+			{ name: '트롤리 지구젤리', specification: '18.8g/개', unit: 'EA', type: '원재료', category: '젤리', stock: 320 },
+			{ name: '스크류바 젤리', specification: '50g/봉지', unit: 'EA', type: '원재료', category: '젤리', stock: 280 },
+			{ name: '비타500 젤리', specification: '48g/봉지', unit: 'EA', type: '원재료', category: '젤리', stock: 310 },
+			{ name: '웰치스 젤리', specification: '80g/봉지', unit: 'EA', type: '원재료', category: '젤리', stock: 410 },
+			{ name: '요구르트 젤리', specification: '50g/봉지', unit: 'EA', type: '원재료', category: '젤리', stock: 350 },
+			{ name: '꼬깔콘 젤리', specification: '48g/봉지', unit: 'EA', type: '원재료', category: '젤리', stock: 210 },
+			{ name: '수박바 젤리', specification: '48g/봉지', unit: 'EA', type: '원재료', category: '젤리', stock: 290 },
+			// 사탕 (10)
+			{ name: '츄파춥스', specification: '1개', unit: 'EA', type: '원재료', category: '사탕', stock: 1000 },
+			{ name: '스카치캔디', specification: '157g/봉지', unit: 'EA', type: '원재료', category: '사탕', stock: 800 },
+			{ name: '애니타임', specification: '74g/봉지', unit: 'EA', type: '원재료', category: '사탕', stock: 650 },
+			{ name: '알사탕', specification: '135g/봉지', unit: 'EA', type: '원재료', category: '사탕', stock: 720 },
+			{ name: '새콤달콤', specification: '29g/개', unit: 'EA', type: '원재료', category: '사탕', stock: 950 },
+			{ name: '아이셔', specification: '39g/개', unit: 'EA', type: '원재료', category: '사탕', stock: 550 },
+			{ name: '청포도사탕', specification: '153g/봉지', unit: 'EA', type: '원재료', category: '사탕', stock: 680 },
+			{ name: '자두사탕', specification: '153g/봉지', unit: 'EA', type: '원재료', category: '사탕', stock: 690 },
+			{ name: '목캔디', specification: '90g/통', unit: 'EA', type: '원재료', category: '사탕', stock: 480 },
+			{ name: '사랑방선물', specification: '305g/통', unit: 'EA', type: '원재료', category: '사탕', stock: 320 },
+			// 양갱 (5)
+			{ name: '연양갱', specification: '50g/개', unit: 'EA', type: '원재료', category: '양갱', stock: 180 },
+			{ name: '밤양갱', specification: '50g/개', unit: 'EA', type: '원재료', category: '양갱', stock: 160 },
+			{ name: '팥양갱', specification: '50g/개', unit: 'EA', type: '원재료', category: '양갱', stock: 150 },
+			{ name: '고구마양갱', specification: '50g/개', unit: 'EA', type: '원재료', category: '양갱', stock: 130 },
+			{ name: '녹차양갱', specification: '50g/개', unit: 'EA', type: '원재료', category: '양갱', stock: 120 },
+			// 견과류 (5)
+			{ name: '아몬드', specification: '200g/봉지', unit: 'EA', type: '원재료', category: '견과류', stock: 300 },
+			{ name: '호두', specification: '150g/봉지', unit: 'EA', type: '원재료', category: '견과류', stock: 250 },
+			{ name: '캐슈넛', specification: '200g/봉지', unit: 'EA', type: '원재료', category: '견과류', stock: 280 },
+			{ name: '믹스넛', specification: '250g/봉지', unit: 'EA', type: '원재료', category: '견과류', stock: 350 },
+			{ name: '피스타치오', specification: '180g/봉지', unit: 'EA', type: '원재료', category: '견과류', stock: 220 },
+			// 세트상품 (5)
+			{ name: '봉지과자 종합세트', specification: '1세트', unit: 'SET', type: '완제품', category: '세트상품', stock: 55 },
+			{ name: '초콜릿 선물세트', specification: '1세트', unit: 'SET', type: '완제품', category: '세트상품', stock: 80 },
+			{ name: '쿠키와 비스킷 선물세트', specification: '1세트', unit: 'SET', type: '완제품', category: '세트상품', stock: 40 },
+			{ name: '인기과자 종합선물세트', specification: '1세트', unit: 'SET', type: '완제품', category: '세트상품', stock: 120 },
+			{ name: '수입과자 특별세트', specification: '1세트', unit: 'SET', type: '완제품', category: '세트상품', stock: 65 },
+		];
+		
+		const tableBody = document.querySelector('#inventory-table tbody');
+		const buttonsContainer = document.querySelector('#category-buttons');
+		
+		function renderTable(items) {
+			tableBody.innerHTML = '';
+			
+			if (items.length === 0) {
+				tableBody.innerHTML = '<tr><td colspan="6" class="text-center">해당 카테고리에 품목이 없습니다.</td></tr>';
+				return;
+			}
+			
+			items.forEach(item => {
+				const stockStatus = item.stock > 50 ? `<span class="badge bg-success">재고 양호</span>` : `<span class="badge bg-warning">재고 부족</span>`;
+				const row = `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.specification}</td>
+                    <td>${item.unit}</td>
+                    <td>${item.type}</td>
+                    <td>${item.stock}</td>
+                    <td>${stockStatus}</td>
+                </tr>
+                `;
+				tableBody.innerHTML += row;
+			});
+		}
+		
+		buttonsContainer.addEventListener('click', function(e) {
+			if (e.target.classList.contains('category-btn')) {
+				const category = e.target.dataset.category;
+				
+				document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+				e.target.classList.add('active');
+				
+				if (category === 'All') {
+					renderTable(inventoryData);
+				} else {
+					const filteredData = inventoryData.filter(item => item.category === category);
+					renderTable(filteredData);
+				}
+			}
+		});
+		
+		// Initial table render on page load
+		renderTable(inventoryData);
+	</script>
+</body>
+</html>
