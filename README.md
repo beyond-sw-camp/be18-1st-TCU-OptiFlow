@@ -57,6 +57,8 @@
 6. [📄 테이블 명세서](#table-specifications)
 
 8. [📄 DB DDL](#db-ddl)
+
+9. [📄 DB DML](#db-dml)
    
 8. [👨‍💻 프로젝트 후기](#retrospective)
 
@@ -345,7 +347,35 @@ CREATE TABLE `employees` (
 
 <br>
 
-## <a id="retrospective"></a>6. 프로젝트 후기
+## <a id="db-dml"></a> 6. DB 데이터 DML
+<details>
+<summary>DB 데이터 DML</summary>
+<div markdown="1">
+
+ 
+| No. | 설명             | 파일명                                  | 링크                                             |
+| --- | -------------- | ------------------------------------ | ---------------------------------------------- |
+| 3   | 품목 데이터 입력      | `03_optiflow_item_dml.sql`           | [보기](./sql/03_optiflow_item_dml.sql)           |
+| 4   | 사원 데이터 입력      | `04_optiflow_employees_dml.sql`      | [보기](./sql/04_optiflow_employees_dml.sql)      |
+| 5   | 거래처 데이터 입력     | `05_optiflow_client_dml.sql`         | [보기](./sql/05_optiflow_client_dml.sql)         |
+| 6   | 거래처 관리자 데이터 입력 | `06_optiflow_manager_dml.sql`        | [보기](./sql/06_optiflow_manager_dml.sql)        |
+| 7   | 로그 데이터 입력      | `07_optiflow_log_dml.sql`            | [보기](./sql/07_optiflow_log_dml.sql)            |
+| 8   | 유사어 데이터 입력     | `08_optiflow_similar_word_dml.sql`   | [보기](./sql/08_optiflow_similar_word_dml.sql)   |
+| 9   | 창고 데이터 입력      | `09_optiflow_storage_dml.sql`        | [보기](./sql/09_optiflow_storage_dml.sql)        |
+| 10  | 즐겨찾기 입력        | `10_optiflow_bookmark_dml.sql`       | [보기](./sql/10_optiflow_bookmark_dml.sql)       |
+| 11  | 발주요청 데이터 입력    | `11_optiflow_request_order_dml.sql`  | [보기](./sql/11_optiflow_request_order_dml.sql)  |
+| 12  | 구매 데이터 입력      | `12_optiflow_purchase_order_dml.sql` | [보기](./sql/12_optiflow_purchase_order_dml.sql) |
+| 13  | 주문 데이터 입력      | `13_optiflow_order_dml.sql`          | [보기](./sql/13_optiflow_order_dml.sql)          |
+| 14  | 판매 데이터 입력      | `14_optiflow_salesOrder.sql`         | [보기](./sql/14_optiflow_salesOrder.sql)         |
+| 15  | 단가 데이터 입력      | `15_optiflow_salesPrice.sql`         | [보기](./sql/15_optiflow_salesPrice.sql)         |
+| 31  | 트리거 정의         | `31_optiflow_triger.sql`             | [보기](./sql/31_optiflow_triger.sql)             |
+
+</div>
+</details>
+
+<br>
+
+## <a id="retrospective"></a>7. 프로젝트 후기
 | 이름 | 후기                                                                                                                                                                                                                                                     |
 |:---:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 육세윤 | 프로젝트를 진행하면서 이렇게 손발이 맞는 팀원들은 처음입니다.  <br/>서로 적극적으로 참여하며 더 양질의 결과물이 나온 것 같아 감개무량합니다.<br/>팀장으로서 매일 야근을 시켰는데 잘 따라와준 팀원들에게 매우 감사합니다. <br/>특히, 데이터베이스와 백/ 프론트엔드의 개념을 확립할 수 있었고, PM으로서 개발자와의 커뮤니케이션 스킬을 배울 수 있었습니다. <br/>데이터베이스가 무엇인지도 몰랐지만, 팀원들의 도움으로 요구사항 명세서, DB 설계 및 테이블 명세서까지 협업하여 완성할 수 있었습니다. <br/>너무너무 고마운 다들 환영해조 화이팅!! |
