@@ -47,7 +47,7 @@ CREATE TABLE `itemStatus` (
 
 CREATE TABLE `itemList` (
 	`item_no`			INTEGER			NOT NULL AUTO_INCREMENT,
-	`item_group_no`	INTEGER			NOT NULL,
+	`item_group_no`	INTEGER			NULL,
 	`item_status_no`	INTEGER			NOT NULL,
 	`item_name`			VARCHAR(60)		NULL,
 	`specification`	VARCHAR(100)	NULL,
@@ -204,8 +204,8 @@ CREATE TABLE `salesPrice` (
 
 CREATE TABLE `manager` (
 	`manager_no`		INTEGER			NOT NULL AUTO_INCREMENT,
-	`client_no`			INTEGER			NOT NULL,
-	`emp_no`				INTEGER			NOT NULL,
+	`client_no`			INTEGER			NULL,
+	`emp_no`				INTEGER			NULL,
 	`manager_id`		VARCHAR(20)		NULL,
 	`manager_password`CHAR(64)			NULL,
 	`login_status`		TINYINT			NOT NULL,
