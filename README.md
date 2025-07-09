@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="src/assets/img/optiflow_logo.png" alt="Optiflow Logo" width="300"/>
+</p>
+
+
 # 📉 실무자들의 효율적인 전산 사용 및 업무를 돕는 ERP 프로그램
 ## ⭐팀명: 일등할 공대, 다들 환호해조(18기 1조)⭐
 
