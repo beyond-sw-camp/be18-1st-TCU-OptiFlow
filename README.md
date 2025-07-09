@@ -90,8 +90,9 @@
 
 1) 사용자 등록
 
-    : 아이디, 비밀번호, 이름, 연락, 이메일, 주민번호 등 기입
-
+     : 아이디, 비밀번호, 이름, 연락, 이메일, 주민번호 등 기입
+![register](src/assets/img/ui/register.png)
+   
 2) 가입 승인 및 권한 설정
 
     : 관리자는 가입 요청 목록 확인 및 승인 또는 반려 가능
@@ -100,17 +101,19 @@
 
     : 성공 시 로그인 페이지, 실패시 오류 메세지 출력
 
-5) 기본 로그인 기능
+4) 기본 로그인 기능
 
     : 등록된 사용자만 아이디/비밀번호로 로그인
 
-6) 접근권한 제어
+5) 접근권한 제어
 
     : 사용자 권한에 따라, 접근 메뉴 달라짐
 
-7) 로그인 상태 유지/만료
+6) 로그인 상태 유지/만료
 
     : 일정 시간 무활동 시, 자동 로그아웃 및 수동 로그아웃 가능
+![login](src/assets/img/ui/available_logout.png)
+   
 </div>
 </details>
 
@@ -121,6 +124,9 @@
 1) 품목 등록
 
     : 품목명, 품목코드, 단위 등 신규 등록
+
+- 기본화면
+  ![table](src/assets/img/ui/table_basic.png)
    
 2) 품목 사용 중지
 
@@ -129,9 +135,16 @@
 3) 품목 삭제
 
     : 이전 수불 기록이 없는 경우에만 가능
+
 4) ⭐품목 검색⭐
 
     : 품목명/코드/유사단어 검색
+- 품목검색
+![search](src/assets/img/ui/search.png)
+    
+- 유사단어
+![similar_word](src/assets/img/ui/similar_word.png)
+
 5) 품목 수정
 
     : 관리자는 품목 단위, 수량, 명칭 수정 및 유사단어 추가  가능
@@ -150,6 +163,9 @@
 1) 구매전표 입력
 
       : 거래처, 구매일자, 납기일자 등 기본정보 입력
+   
+- 거래 날짜 설정
+  ![table_date](src/assets/img/ui/date.png)
 
 2) 품목 및 수량 입력
   
@@ -179,6 +195,9 @@
 
     : 판매 전표 저장 및 임시저장
 
+  - 판매 주문서
+  ![total](src/assets/img/ui/total.png)
+
 9) 판매 주문서 조회 및 검색
 
     : 과거 판매 이력 주문서 조회 및 검색
@@ -203,6 +222,9 @@
 2) 영업사원 품목 추천
 
     : 해당 영업사원의 판매 빈도수에 비례하여, 품목 리스트를 추천
+
+- Top 10 품목 추천
+  ![Top 10](src/assets/img/ui/recommand.png)
 
 3) 추천 품목 편집
 
@@ -248,6 +270,9 @@
 1) 즐겨찾기 등록
 
     : 사용자가 자주 사용하는 품목을 등록하는 기능.
+   
+- 즐겨찾기 등록
+  ![table_date](src/assets/img/ui/star.png)
 
 2) 즐겨찾기 조회
 
@@ -263,10 +288,8 @@
 
 </div>
 </details>
-
-</div>
-</details>
 <br>
+
 
 ## <a id="erd-link"></a>3. ERD
 <details>
@@ -278,12 +301,15 @@
 </details>
 <br>
 
-## <a id="table_specifications"></a>4. 테이블 명세서
+
+## 4. 테이블 명세서
 <details>
-<summary> 테이블 명세서 보기 </summary>
+<summary>테이블 명세서 링크</summary>
 <div markdown="1">
 
-![table_specifications](src/assets/image/)
+
+(https://docs.google.com/spreadsheets/d/1rTjaT62c36xYGsWzVaBISN6cNFUnTbNTU2lRPsEm0gU/edit?usp=sharing)
+
 </div>
 </details>
 

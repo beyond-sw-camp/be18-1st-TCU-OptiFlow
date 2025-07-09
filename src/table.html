@@ -20,7 +20,7 @@
 		#dataTable th, #dataTable td { border: 1px solid #e3e6f0; padding-top: 20px; padding-bottom: 20px; vertical-align: middle; }
 		#dataTable tfoot th { background-color: #f8f9fa !important; }
 		.search-container { position: relative; }
-		#search-suggestions { position: absolute; top: 100%; left: 0; right: 0; z-index: 1050; max-height: 300px; overflow-y: auto; border-top: none; border-radius: 0 0 .375rem .375rem; }
+		.suggestions-container { position: absolute; top: 100%; left: 0; right: 0; z-index: 1050; max-height: 300px; overflow-y: auto; border: 1px solid #ddd; border-top: none; border-radius: 0 0 .375rem .375rem; background-color: #fff; }
 		.dragging { opacity: 0.5; background-color: #e3e6f0; }
 	</style>
 </head>
@@ -50,10 +50,10 @@
 						<form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
 							<div class="search-container">
 								<div class="input-group">
-									<input class="bg-light form-control border-0 small" type="text" id="main-search-input" placeholder="검색어를 입력하세요" autocomplete="off">
+									<input class="bg-light form-control border-0 small" type="text" id="main-search-input" placeholder="품목 검색..." autocomplete="off">
 									<button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button>
 								</div>
-								<div id="search-suggestions" class="list-group" style="display: none;"></div>
+								<div id="search-suggestions" class="list-group suggestions-container" style="display: none;"></div>
 							</div>
 						</form>
 						<ul class="navbar-nav flex-nowrap ms-auto">
@@ -96,9 +96,7 @@
 												<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 											</tbody>
 											<tfoot align="center">
-												<tr>
-													<th></th><th><strong></strong></th><th><strong></strong></th><th><strong>0</strong></th><th><strong>0</strong></th><th><strong>0</strong></th><th><strong>0</strong></th><th><strong>0</strong></th>
-												</tr>
+												<tr><th></th><th><strong></strong></th><th><strong></strong></th><th><strong>0</strong></th><th><strong>0</strong></th><th><strong>0</strong></th><th><strong>0</strong></th><th><strong>0</strong></th></tr>
 											</tfoot>
 										</table>
 									</div>
@@ -133,7 +131,10 @@
 								<div class="card-body" id="favorites-items-body">
 									<ul class="list-group list-group-flush" id="favorites-list"></ul>
 									<div class="input-group mt-3">
-										<input type="text" class="form-control form-control-sm" id="new-favorite-input" placeholder="즐겨찾기 이름 입력">
+										<div class="search-container w-100">
+											<input type="text" class="form-control form-control-sm" id="new-favorite-input" placeholder="즐겨찾기 이름 저장 또는 검색" autocomplete="off">
+											<div id="favorite-suggestions" class="list-group suggestions-container" style="display: none;"></div>
+										</div>
 										<button class="btn btn-outline-primary btn-sm" type="button" id="add-new-favorite-btn">저장</button>
 									</div>
 								</div>
@@ -173,51 +174,53 @@
 		const originalRecommendationHTML = recommendationCardBody.innerHTML;
 		const mainSearchInput = document.getElementById('main-search-input');
 		const suggestionsContainer = document.getElementById('search-suggestions');
-		const dataTableWrapper = document.getElementById('dataTableWrapper');
 		const favoritesList = document.getElementById('favorites-list');
 		const newFavoriteInput = document.getElementById('new-favorite-input');
 		const addNewFavoriteBtn = document.getElementById('add-new-favorite-btn');
+		const favoriteSuggestionsContainer = document.getElementById('favorite-suggestions');
 		
 		// ----- 데이터 저장소 -----
 		const allItemsData = [
-			{ name: '새우깡', spec: '120g', group: '봉지과자', price: 1500, popularity: 95 },
-			{ name: '바나나킥', spec: '75g', group: '봉지과자', price: 1300, popularity: 88 },
-			{ name: '포스틱', spec: '80g', group: '봉지과자', price: 1400, popularity: 85 },
-			{ name: '감자깡', spec: '110g', group: '봉지과자', price: 1500, popularity: 76 },
-			{ name: '고구마깡', spec: '110g', group: '봉지과자', price: 1500, popularity: 75 },
-			{ name: '자갈치', spec: '90g', group: '봉지과자', price: 1300, popularity: 60 },
-			{ name: '꿀꽈배기', spec: '90g', group: '봉지과자', price: 1400, popularity: 92 },
-			{ name: '오징어칩', spec: '85g', group: '봉지과자', price: 1600, popularity: 50 },
-			{ name: '오예스', spec: '12개입', group: '파이과자', price: 4800, popularity: 98 },
-			{ name: '빅파이', spec: '18개입', group: '파이과자', price: 3800, popularity: 82 },
-			{ name: '카스타드', spec: '12개입', group: '파이과자', price: 4200, popularity: 89 },
-			{ name: '오뜨', spec: '12개입', group: '파이과자', price: 4500, popularity: 70 },
-			{ name: '후렌치파이', spec: '15개입', group: '파이과자', price: 4000, popularity: 91 },
-			{ name: '초코파이', spec: '12개입', group: '파이과자', price: 4500, popularity: 100 },
-			{ name: '몽쉘', spec: '12개입', group: '파이과자', price: 5200, popularity: 99 },
-			{ name: '칙촉', spec: '12개입', group: '쿠키', price: 4800, popularity: 93 },
-			{ name: '촉촉한 초코칩', spec: '12개입', group: '쿠키', price: 4600, popularity: 94 },
-			{ name: '버터링', spec: '100g', group: '쿠키', price: 2000, popularity: 80 },
-			{ name: '참크래커', spec: '120g', group: '비스킷', price: 2200, popularity: 78 },
-			{ name: '에이스', spec: '121g', group: '비스킷', price: 1800, popularity: 83 }
+			{ name: '새우깡', spec: '120g', group: '봉지과자', price: 1500, popularity: 95 }, { name: '바나나킥', spec: '75g', group: '봉지과자', price: 1300, popularity: 88 },
+			{ name: '포스틱', spec: '80g', group: '봉지과자', price: 1400, popularity: 85 }, { name: '감자깡', spec: '110g', group: '봉지과자', price: 1500, popularity: 76 },
+			{ name: '고구마깡', spec: '110g', group: '봉지과자', price: 1500, popularity: 75 }, { name: '자갈치', spec: '90g', group: '봉지과자', price: 1300, popularity: 60 },
+			{ name: '꿀꽈배기', spec: '90g', group: '봉지과자', price: 1400, popularity: 92 }, { name: '오징어칩', spec: '85g', group: '봉지과자', price: 1600, popularity: 50 },
+			{ name: '오예스', spec: '12개입', group: '파이과자', price: 4800, popularity: 98 }, { name: '빅파이', spec: '18개입', group: '파이과자', price: 3800, popularity: 82 },
+			{ name: '카스타드', spec: '12개입', group: '파이과자', price: 4200, popularity: 89 }, { name: '오뜨', spec: '12개입', group: '파이과자', price: 4500, popularity: 70 },
+			{ name: '후렌치파이', spec: '15개입', group: '파이과자', price: 4000, popularity: 91 }, { name: '초코파이', spec: '12개입', group: '파이과자', price: 4500, popularity: 100 },
+			{ name: '몽쉘', spec: '12개입', group: '파이과자', price: 5200, popularity: 99 }, { name: '칙촉', spec: '12개입', group: '쿠키', price: 4800, popularity: 93 },
+			{ name: '촉촉한 초코칩', spec: '12개입', group: '쿠키', price: 4600, popularity: 94 }, { name: '버터링', spec: '100g', group: '쿠키', price: 2000, popularity: 80 },
+			{ name: '참크래커', spec: '120g', group: '비스킷', price: 2200, popularity: 78 }, { name: '에이스', spec: '121g', group: '비스킷', price: 1800, popularity: 83 },
+			{ name: '젤리셔스', spec: '50g', group: '젤리', price: 1000, popularity: 86 }, { name: '마이구미', spec: '60g', group: '젤리', price: 1200, popularity: 90 },
+			{ name: '츄파춥스', spec: '1개', group: '사탕', price: 300, popularity: 87 }
 		];
-		let favorites = [
-			{ name: "봉지파이", groups: ["봉지과자", "파이과자"] },
-			{ name: "봉지비스킷", groups: ["봉지과자", "비스킷"] }
-		];
+		let favorites = [ { name: "봉지파이", groups: ["봉지과자", "파이과자"] }, { name: "봉지비스킷", groups: ["봉지과자", "비스킷"] }, { name: "봉지젤리사탕", groups: ["봉지과자", "젤리", "사탕"] } ];
+		const groupKeywordMapping = {
+			'봉지': '봉지과자',
+			'파이': '파이과자',
+			'쿠키': '쿠키',
+			'비스킷': '비스킷',
+			'초콜릿': '초콜릿',
+			'바': '바',
+			'젤리': '젤리',
+			'사탕': '사탕',
+			'양갱': '양갱',
+			'견과류': '견과류'
+		};
 		
 		// ----- 헬퍼 함수 -----
 		
-		function renderFavorites() {
+		function renderFavorites(favoritesToRender = favorites) {
 			favoritesList.innerHTML = '';
-			if (favorites.length === 0) {
-				favoritesList.innerHTML = '<p class="text-center small text-muted my-2">등록된 즐겨찾기가 없습니다.</p>';
+			if (favoritesToRender.length === 0) {
+				favoritesList.innerHTML = '<p class="text-center small text-muted my-2">즐겨찾기가 없습니다.</p>';
 				return;
 			}
-			favorites.forEach((fav, index) => {
+			const isFiltered = favoritesToRender !== favorites;
+			favoritesToRender.forEach(fav => {
 				const li = document.createElement('li');
 				li.className = 'list-group-item d-flex justify-content-between align-items-center p-2';
-				li.draggable = true;
+				li.draggable = !isFiltered;
 				li.style.cursor = 'pointer';
 				li.dataset.name = fav.name;
 				const textSpan = document.createElement('span');
@@ -225,7 +228,7 @@
 				const deleteBtn = document.createElement('button');
 				deleteBtn.className = 'btn btn-outline-danger btn-sm py-0 px-1';
 				deleteBtn.innerHTML = '&times;';
-				deleteBtn.dataset.index = index;
+				deleteBtn.dataset.name = fav.name;
 				deleteBtn.title = "삭제";
 				li.appendChild(textSpan);
 				li.appendChild(deleteBtn);
@@ -236,7 +239,6 @@
 		function addItemsToTable(itemsToAdd) {
 			const mainTableBody = document.querySelector('#dataTable tbody');
 			if (!mainTableBody || itemsToAdd.length === 0) return;
-			
 			if (itemsToAdd.length === 1) {
 				const item = itemsToAdd[0];
 				const supplyPrice = item.price * item.quantity;
@@ -260,7 +262,6 @@
 				const newRowHTML = `<tr><td></td><td>${firstItem.name} 등</td><td>${combinedSpec}</td><td>${totalQuantity}</td><td></td><td>${totalSupplyPrice.toLocaleString()}</td><td>${totalVat.toLocaleString()}</td><td>${grandTotalAmount.toLocaleString()}</td></tr>`;
 				mainTableBody.insertAdjacentHTML('afterbegin', newRowHTML);
 			}
-			
 			const lastEmptyRow = mainTableBody.querySelector('tr:last-child');
 			if (lastEmptyRow && !lastEmptyRow.querySelector('td:nth-child(2)').textContent) {
 				lastEmptyRow.remove();
@@ -306,9 +307,22 @@
 			});
 		}
 		
+		function applyFavorite(favName) {
+			const favoriteToApply = favorites.find(f => f.name === favName);
+			if (favoriteToApply) {
+				allCheckboxes.forEach(cb => cb.checked = false);
+				favoriteToApply.groups.forEach(groupName => {
+					const checkbox = [...allCheckboxes].find(cb => cb.dataset.groupName === groupName);
+					if (checkbox) checkbox.checked = true;
+				});
+				itemGroupContainer.dispatchEvent(new Event('change', { bubbles: true }));
+			}
+		}
+		
 		// ----- 이벤트 리스너 설정 -----
 		
 		document.addEventListener('DOMContentLoaded', renderFavorites);
+		
 		searchButton.addEventListener('click', () => sidePanelsContainer.classList.add('visible'));
 		
 		confirmButton.addEventListener('click', () => {
@@ -326,24 +340,70 @@
 			sidePanelsContainer.classList.remove('visible');
 		});
 		
+		newFavoriteInput.addEventListener('input', (event) => {
+			const searchTerm = event.target.value.trim();
+			if (searchTerm === '') {
+				favoriteSuggestionsContainer.style.display = 'none';
+				renderFavorites(); // 검색창이 비워지면 전체 목록 다시 표시
+				return;
+			}
+			const foundKeywords = [];
+			let tempSearchTerm = searchTerm;
+			const sortedKeywords = Object.keys(groupKeywordMapping).sort((a, b) => b.length - a.length);
+			
+			sortedKeywords.forEach(keyword => {
+				if (tempSearchTerm.includes(keyword)) {
+					foundKeywords.push(keyword);
+					tempSearchTerm = tempSearchTerm.replace(new RegExp(keyword, 'g'), '');
+				}
+			});
+			
+			const targetGroups = foundKeywords.map(kw => groupKeywordMapping[kw]);
+			
+			const filteredFavorites = favorites.filter(fav => {
+				if (targetGroups.length > 0 && fav.groups.length === targetGroups.length) {
+					const sortedFavGroups = [...fav.groups].sort();
+					const sortedTargetGroups = [...targetGroups].sort();
+					return sortedFavGroups.every((group, index) => group === sortedTargetGroups[index]);
+				}
+				// 키워드 조합 검색 외에 이름 직접 검색도 지원
+				return fav.name.toLowerCase().includes(searchTerm.toLowerCase());
+			});
+			
+			if (filteredFavorites.length > 0) {
+				favoriteSuggestionsContainer.innerHTML = filteredFavorites.map(fav =>
+						`<a href="#" class="list-group-item list-group-item-action" data-name="${fav.name}">${fav.name}</a>`
+				).join('');
+				favoriteSuggestionsContainer.style.display = 'block';
+			} else {
+				favoriteSuggestionsContainer.style.display = 'none';
+			}
+			// 검색 중에는 메인 목록을 필터링하지 않음
+		});
+		
+		favoriteSuggestionsContainer.addEventListener('click', (event) => {
+			if (event.target.tagName === 'A') {
+				event.preventDefault();
+				const favName = event.target.dataset.name;
+				newFavoriteInput.value = favName;
+				favoriteSuggestionsContainer.style.display = 'none';
+				applyFavorite(favName);
+			}
+		});
+		
 		favoritesList.addEventListener('click', (event) => {
 			const target = event.target;
 			if (target.tagName === 'BUTTON') {
 				event.stopPropagation();
-				const indexToRemove = parseInt(target.dataset.index, 10);
-				favorites.splice(indexToRemove, 1);
-				renderFavorites();
+				const nameToDelete = target.dataset.name;
+				const indexToRemove = favorites.findIndex(fav => fav.name === nameToDelete);
+				if (indexToRemove > -1) {
+					favorites.splice(indexToRemove, 1);
+					renderFavorites();
+				}
 			} else if (target.closest('li')) {
 				const favName = target.closest('li').dataset.name;
-				const favoriteToApply = favorites.find(f => f.name === favName);
-				if (favoriteToApply) {
-					allCheckboxes.forEach(cb => cb.checked = false);
-					favoriteToApply.groups.forEach(groupName => {
-						const checkbox = [...allCheckboxes].find(cb => cb.dataset.groupName === groupName);
-						if (checkbox) checkbox.checked = true;
-					});
-					itemGroupContainer.dispatchEvent(new Event('change', { bubbles: true }));
-				}
+				applyFavorite(favName);
 			}
 		});
 		
@@ -368,8 +428,8 @@
 				return;
 			}
 			favorites.push({ name: favoriteName, groups: selectedGroups });
-			renderFavorites();
 			newFavoriteInput.value = '';
+			renderFavorites();
 		});
 		
 		favoritesList.addEventListener('dragstart', (event) => {
@@ -472,9 +532,13 @@
 		});
 		
 		document.addEventListener('click', (event) => {
-			const searchContainer = mainSearchInput.closest('.search-container');
-			if (!searchContainer.contains(event.target)) {
+			const mainSearchContainer = mainSearchInput.closest('.search-container');
+			if (!mainSearchContainer.contains(event.target)) {
 				suggestionsContainer.style.display = 'none';
+			}
+			const favSearchContainer = newFavoriteInput.closest('.search-container');
+			if (!favSearchContainer.contains(event.target)) {
+				favoriteSuggestionsContainer.style.display = 'none';
 			}
 		});
 	
