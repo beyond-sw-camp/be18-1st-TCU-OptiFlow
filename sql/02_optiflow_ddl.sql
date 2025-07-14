@@ -45,7 +45,9 @@ CREATE TABLE `itemGroup` (
 CREATE TABLE `itemStatus` (
     `item_status_no`    INTEGER         NOT NULL AUTO_INCREMENT,
     `item_status`       VARCHAR(30)     NOT NULL,
-    CONSTRAINT `PK_I매
+    CONSTRAINT `PK_ITEMSTATUS` PRIMARY KEY (`item_status_no`)
+);
+
 CREATE TABLE `purchaseOrder` (
     `po_no`             INTEGER         NOT NULL AUTO_INCREMENT,
     `item_no`           INTEGER         NOT NULL,
