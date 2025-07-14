@@ -48,6 +48,67 @@ CREATE TABLE `itemStatus` (
     CONSTRAINT `PK_ITEMSTATUS` PRIMARY KEY (`item_status_no`)
 );
 
+-- 품목 리스트
+CREATE TABLE `itemList` (
+    `item_no`           INTEGER         NOT NULL AUTO_INCREMENT,
+    `item_group_no`     INTEGER         NULL,
+    `item_status_no`    INTEGER         NOT NULL,
+    `item_name`         VARCHAR(60)     NULL,
+    `specification`     VARCHAR(100)    NULL,
+    `unit`              VARCHAR(10)     NOT NULL,
+    `created_at`        TIMESTAMP       NOT NULL DEFAULT NOW(),
+    `updated_at`        TIMESTAMP       NOT NULL DEFAULT NOW(),
+    CONSTRAINT `PK_ITEMLIST` PRIMARY KEY (`item_no`),
+    CONSTRAINT `FK_itemGroup_TO_itemList_1` FOREIGN KEY (`item_group_no`) REFERENCES `itemGroup` (`item_group_no`),
+    CONSTRAINT `FK_itemStatus_TO_itemList_1` FOREIGN KEY (`item_status_no`) REFERENCES `itemStatus` (`item_status_no`)
+);
+
+-- 유사어
+CREATE TABLE `similarWord` (
+    `item_no`           INTEGER         NOT NULL,
+    `similar_words`     VARCHAR(100)    NULL,
+    CONSTRAINT `PK_SIMILARWORD` PRIMARY KEY (`item_no`),
+    CONSTRAINT `FK_itemList_TO_similarWord_1` FOREIGN KEY (`item_no`) REFERENCES `itemList` (`item_no`)
+);
+
+-- 저장소
+CREATE TABLE `storage` (
+    `storage_no`        INTEGER         NOT NULL AUTO_INCREMENT,
+    `item_no`           INTEGER         NOT NULL,
+    `storage_name`      VARCHAR(50)     NULL,
+    `storage_div`       TINYINT         NOT NULL,
+    CONSTRAINT `PK_STORAGE` PRIMARY KEY (`storage_no`),
+    CONSTRAINT `FK_itemList_TO_storage_1` FOREIGN KEY (`item_no`) REFERENCES `itemList` (`item_no`)
+);
+
+-- BOM
+CREATE TABLE `bom` (
+    `bom_no`            INTEGER         NOT NULL AUTO_INCREMENT,
+    `parent_item_no`    INTEGER         NOT NULL,
+    `child_item_no`     INTEGER         NOT NULL,
+    `quantity`          INTEGER         NOT NULL,
+    `unit`              VARCHAR(10)     NOT NULL,
+    CONSTRAINT `PK_BOM` PRIMARY KEY (`bom_no`),
+    CONSTRAINT `FK_itemList_TO_bom_1` FOREIGN KEY (`parent_item_no`) REFERENCES `itemList` (`item_no`),
+    CONSTRAINT `FK_itemList_TO_bom_2` FOREIGN KEY (`child_item_no`) REFERENCES `itemList` (`item_no`)
+);
+
+-- 요청 발주
+CREATE TABLE `requestOrder` (
+    `ro_no`             INTEGER         NOT NULL AUTO_INCREMENT,
+    `item_no`           INTEGER         NOT NULL,
+    `client_no`         INTEGER         NOT NULL,
+    `ro_date`           DATE            NOT NULL,
+    `delivery_date`     DATE            NOT NULL,
+    `req_amount`        INTEGER         NOT NULL,
+    `unit_price`        DECIMAL(10, 2)  NOT NULL,
+    `order_remark`      VARCHAR(100)    NULL,
+    CONSTRAINT `PK_REQUESTORDER` PRIMARY KEY (`ro_no`),
+    CONSTRAINT `FK_itemList_TO_requestOrder_1` FOREIGN KEY (`item_no`) REFERENCES `itemList` (`item_no`),
+    CONSTRAINT `FK_client_TO_requestOrder_1` FOREIGN KEY (`client_no`) REFERENCES `client` (`client_no`)
+);
+
+-- 발주
 CREATE TABLE `purchaseOrder` (
     `po_no`             INTEGER         NOT NULL AUTO_INCREMENT,
     `item_no`           INTEGER         NOT NULL,
